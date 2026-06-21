@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Ella</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital@1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="snow snow-far"></div>
+    <div class="snow snow-mid"></div>
+    <div class="snow snow-near"></div>
+
+    <div class="container">
+        <div class="glow"></div>
+
+        <div class="envelope-wrapper" id="envelope">
+            <div class="envelope">
+                <div class="front flap"></div>
+                <div class="front pocket"></div>
+                
+                <div class="letter">
+                    <div class="text-container">
+                         <p><strong>Merry Christmas!</strong></p>
+                         <p>Dear Ella,</p>
+                         <p>I wanted to make this for you just to say how much I love you.</p>
+                         <p>It is so hard being apart from you, and I miss you more than I can explain. But knowing that I get to see you soon is the only thing getting me through the distance.</p>
+                         <p>I literally can't wait to be with you again.</p>
+                         <p class="signature">Love, Toby</p>
+                        </div>
+
+                </div>
+                
+                <div class="hearts">
+                    <div class="heart a1"></div>
+                    <div class="heart a2"></div>
+                    <div class="heart a3"></div>
+                </div>
+            </div>
+            
+            <div class="seal-group">
+                <div class="holly-leaves">
+                    <div class="leaf l1"></div>
+                    <div class="leaf l2"></div>
+                </div>
+                <div class="holly-berries">
+                    <div class="berry b1"></div>
+                    <div class="berry b2"></div>
+                    <div class="berry b3"></div>
+                </div>
+                <div class="seal">
+                    <span class="tree">🎄</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instruction">Click to open</div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+    emailjs.init("YOUR_PUBLIC_KEY");
+
+    // Send notification when page loads
+    const now = new Date();
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        date: now.toLocaleDateString("en-AU", { timeZone: "Australia/Brisbane" }),
+        time: now.toLocaleTimeString("en-AU", { timeZone: "Australia/Brisbane" }),
+    });
+
+    // Envelope click
+    const envelope = document.getElementById('envelope');
+    envelope.addEventListener('click', () => {
+        envelope.classList.toggle('open');
+    });
+</script>
+</body>
+</html>
