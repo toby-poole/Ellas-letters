@@ -4,78 +4,825 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Ella</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            font-family: 'Lora', serif;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           PAGES
+        ============================================================ */
+        .page {
+            position: fixed;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+
+        /* ============================================================
+           PASSWORD PAGE
+        ============================================================ */
+        #page-password {
+            background: #2d4a3e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            padding: 24px;
+        }
+
+        .pw-bg-leaf {
+            position: fixed;
+            font-size: 60px;
+            opacity: 0.04;
+            pointer-events: none;
+            animation: floatLeaf 14s ease-in-out infinite;
+        }
+        .pw-bg-leaf:nth-child(1) { top: 10%; left: 8%; animation-delay: 0s; }
+        .pw-bg-leaf:nth-child(2) { top: 70%; left: 80%; animation-delay: 4s; }
+        .pw-bg-leaf:nth-child(3) { top: 40%; left: 90%; animation-delay: 8s; }
+        .pw-bg-leaf:nth-child(4) { top: 85%; left: 15%; animation-delay: 2s; }
+
+        @keyframes floatLeaf {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-18px) rotate(6deg); }
+        }
+
+        .password-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 44px 36px 40px;
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+            position: relative;
+            z-index: 2;
+        }
+
+        .password-leaf { font-size: 36px; }
+
+        .password-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 30px;
+            color: #d8eedc;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .password-subtitle {
+            font-size: 11px;
+            color: rgba(216,238,220,0.45);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: -8px;
+        }
+
+        .password-input-wrap { width: 100%; }
+
+        .password-input-wrap input {
+            width: 100%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #d8eedc;
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            letter-spacing: 0.08em;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+            text-align: center;
+            -webkit-appearance: none;
+        }
+
+        .password-input-wrap input::placeholder {
+            color: rgba(216,238,220,0.28);
+        }
+
+        .password-input-wrap input:focus {
+            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .password-btn {
+            width: 100%;
+            padding: 15px;
+            background: #5c8a6a;
+            border: none;
+            border-radius: 10px;
+            color: #f0f7f1;
+            font-family: 'Lora', serif;
+            font-size: 15px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-appearance: none;
+        }
+        .password-btn:hover { background: #6a9e79; }
+        .password-btn:active { transform: scale(0.98); }
+
+        .password-error {
+            font-size: 13px;
+            color: #e8a0a0;
+            letter-spacing: 0.05em;
+            min-height: 16px;
+            text-align: center;
+            margin-top: -8px;
+        }
+
+
+        /* ============================================================
+           HUB PAGE
+        ============================================================ */
+        #page-hub {
+            background: #e8f0e9;
+            display: block;
+        }
+
+        #page-hub::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(122,170,132,0.14) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(122,170,132,0.10) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hub-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 56px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hub-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hub-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #7aaa84;
+            margin-bottom: 12px;
+        }
+
+        .hub-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: clamp(36px, 8vw, 54px);
+            color: #2d4a3e;
+            line-height: 1.1;
+        }
+
+        .hub-title span {
+            display: block;
+            font-style: normal;
+            font-weight: 400;
+            font-size: clamp(14px, 3.5vw, 18px);
+            color: #7aaa84;
+            letter-spacing: 0.04em;
+            margin-top: 10px;
+        }
+
+        .hub-divider {
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(to right, #7aaa84, #a8c9ae);
+            margin: 24px auto 0;
+            border-radius: 2px;
+        }
+
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .letter-card {
+            background: #fff;
+            border: 1px solid #d0e4d3;
+            border-radius: 16px;
+            padding: 32px 24px 28px;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(122,170,132,0.07) 0%, rgba(255,255,255,0) 60%);
+            pointer-events: none;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(45,74,62,0.12);
+            border-color: #7aaa84;
+        }
+
+        .letter-card:active {
+            transform: translateY(-1px);
+        }
+
+        .letter-card.locked {
+            opacity: 0.4;
+            cursor: default;
+        }
+        .letter-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: #d0e4d3;
+        }
+
+        .card-icon { font-size: 32px; line-height: 1; }
+
+        .card-label {
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #7aaa84;
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 21px;
+            font-weight: 400;
+            color: #2d4a3e;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #7a9a80;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .card-arrow {
+            margin-top: 4px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #eaf3ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5c8a6a;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .letter-card:hover .card-arrow {
+            background: #7aaa84;
+            color: #fff;
+        }
+
+        .lock-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 13px;
+            opacity: 0.5;
+        }
+
+        .card-coming {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: #a8bfaa;
+            text-transform: uppercase;
+        }
+
+        .hub-footer {
+            margin-top: 48px;
+            font-size: 12px;
+            color: #a8bfaa;
+            letter-spacing: 0.08em;
+            font-style: italic;
+            text-align: center;
+        }
+
+
+        /* ============================================================
+           CHRISTMAS LETTER PAGE
+        ============================================================ */
+        #page-letter {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 10px 18px;
+            color: rgba(255,255,255,0.7);
+            font-family: 'Lora', serif;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+        /* SNOW */
+        .snow {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .snow-far {
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0));
+            background-size: 200px 200px;
+            opacity: 0.5;
+            animation: snowAnim 15s linear infinite;
+        }
+        .snow-mid {
+            background-image:
+                radial-gradient(3px 3px at 50px 160px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 90px 40px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.8), rgba(0,0,0,0));
+            background-size: 250px 250px;
+            animation: snowAnim 10s linear infinite;
+        }
+        .snow-near {
+            background-image:
+                radial-gradient(4px 4px at 100px 50px, #fff, rgba(0,0,0,0)),
+                radial-gradient(5px 5px at 200px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(4px 4px at 300px 80px, #fff, rgba(0,0,0,0));
+            background-size: 400px 400px;
+            animation: snowAnim 7s linear infinite;
+        }
+        @keyframes snowAnim {
+            from { transform: translateY(0); }
+            to { transform: translateY(400px); }
+        }
+
+        .glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 350px; height: 350px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255,220,180,0.18) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .letter-scene {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 80px 20px 80px;
+            min-height: 100vh;
+        }
+
+        /* Envelope scales down on small screens */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .envelope-wrapper:hover { transform: scale(1.02); }
+
+        .envelope {
+            position: relative;
+            width: 100%; height: 100%;
+            background: #c0392b;
+            background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 4px);
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+        }
+
+        .front { position: absolute; width: 0; height: 0; z-index: 3; }
+
+        .flap {
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #e74c3c;
+            top: 0; left: 0;
+            transform-origin: top;
+            transition: transform 0.4s ease, z-index 0.2s;
+            z-index: 5;
+            filter: brightness(1.1);
+        }
+
+        .pocket {
+            border-left: 150px solid #c0392b;
+            border-right: 150px solid #c0392b;
+            border-bottom: 100px solid #a93226;
+            bottom: 0; left: 0;
+            z-index: 4;
+        }
+
+        .letter {
+            position: absolute;
+            background: #f8f8f0;
+            top: 10px; left: 10px; right: 10px;
+            height: auto;
+            border-radius: 3px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+            clip-path: inset(100% 0 0 0);
+            opacity: 0;
+            transition: transform 0.6s ease 0.4s, clip-path 0.6s ease 0.4s, opacity 0.1s ease 0.4s, z-index 0.1s ease 0.4s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px 20px 28px;
+        }
+
+        .text-container {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.65;
+        }
+
+        .text-container p { margin-bottom: 6px; }
+        .text-container p:last-child { margin-bottom: 0; }
+
+        .signature {
+            margin-top: 16px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            color: #c0392b;
+        }
+
+        .seal-group {
+            position: absolute;
+            top: 110px; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .seal {
+            background: radial-gradient(circle at 30% 30%, #f7dc6f, #d4ac0d);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            border: 2px solid #b7950b;
+            position: relative; z-index: 2;
+        }
+        .seal .tree { font-size: 22px; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3)); }
+
+        .holly-leaves { position: absolute; top: -10px; left: -15px; z-index: 1; }
+        .leaf {
+            position: absolute;
+            width: 25px; height: 12px;
+            background: #228B22;
+            border-radius: 50% 50% 5px 5px;
+            box-shadow: inset 0 -2px 3px rgba(0,0,0,0.3);
+        }
+        .leaf.l1 { transform: rotate(-30deg); top: 5px; }
+        .leaf.l2 { transform: rotate(20deg); left: 12px; top: 2px; }
+
+        .holly-berries { position: absolute; top: 0; left: 0; z-index: 3; }
+        .berry {
+            position: absolute; width: 8px; height: 8px;
+            background: #D62828; border-radius: 50%;
+            box-shadow: inset -2px -2px 3px rgba(0,0,0,0.4);
+        }
+        .berry.b1 { top: 2px; left: 8px; }
+        .berry.b2 { top: 8px; left: 4px; }
+        .berry.b3 { top: 8px; left: 12px; }
+
+        /* OPEN STATE */
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+            transition-delay: 0s;
+        }
+        .envelope-wrapper.open .letter {
+            transform: translateY(-160px);
+            clip-path: inset(0 0 0 0);
+            opacity: 1;
+            z-index: 10;
+            transition-delay: 0.4s;
+        }
+        .envelope-wrapper.open .seal-group {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        .heart {
+            position: absolute; top: 50%; left: 50%;
+            width: 15px; height: 15px;
+            background: #e74c3c;
+            transform: rotate(45deg);
+            opacity: 0; z-index: 1;
+        }
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 15px; height: 15px;
+            border-radius: 50%; background: #e74c3c;
+        }
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { left: -10px; top: 0; }
+
+        .envelope-wrapper.open .heart.a1 { animation: floatHeart 1.5s ease-out 0.8s forwards; }
+        .envelope-wrapper.open .heart.a2 { animation: floatHeart 1.5s ease-out 1.1s forwards; }
+        .envelope-wrapper.open .heart.a3 { animation: floatHeart 1.5s ease-out 1.4s forwards; }
+
+        @keyframes floatHeart {
+            0% { transform: translate(-50%, -50%) rotate(45deg) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -220px) rotate(45deg) scale(1.2); opacity: 0; }
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: 36px; left: 0; right: 0;
+            color: rgba(255,255,255,0.55);
+            font-family: sans-serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ============================================================
+           MOBILE OVERRIDES
+        ============================================================ */
+        @media (max-width: 400px) {
+            .password-card {
+                padding: 36px 24px 32px;
+            }
+
+            /* Scale envelope down to fit narrow screens */
+            .envelope-wrapper {
+                transform-origin: center center;
+                scale: 0.82;
+            }
+            .envelope-wrapper:hover {
+                transform: none;
+            }
+            .envelope-wrapper.open .letter {
+                transform: translateY(-130px);
+            }
+
+            .hub-inner {
+                padding: 44px 16px 48px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .envelope-wrapper {
+                scale: 0.72;
+            }
+        }
+
+    </style>
 </head>
 <body>
 
-    <div class="snow snow-far"></div>
-    <div class="snow snow-mid"></div>
-    <div class="snow snow-near"></div>
+    <!-- ===================== PASSWORD PAGE ===================== -->
+    <div class="page active" id="page-password">
+        <div class="pw-bg-leaf">🍃</div>
+        <div class="pw-bg-leaf">🌿</div>
+        <div class="pw-bg-leaf">🍃</div>
+        <div class="pw-bg-leaf">🌿</div>
 
-    <div class="container">
-        <div class="glow"></div>
-
-        <div class="envelope-wrapper" id="envelope">
-            <div class="envelope">
-                <div class="front flap"></div>
-                <div class="front pocket"></div>
-                
-                <div class="letter">
-                    <div class="text-container">
-                         <p><strong>Merry Christmas!</strong></p>
-                         <p>Dear Ella,</p>
-                         <p>I wanted to make this for you just to say how much I love you.</p>
-                         <p>It is so hard being apart from you, and I miss you more than I can explain. But knowing that I get to see you soon is the only thing getting me through the distance.</p>
-                         <p>I literally can't wait to be with you again.</p>
-                         <p class="signature">Love, Toby</p>
-                    </div>
-                </div>
-                
-                <div class="hearts">
-                    <div class="heart a1"></div>
-                    <div class="heart a2"></div>
-                    <div class="heart a3"></div>
-                </div>
+        <div class="password-card">
+            <div class="password-leaf">🍵</div>
+            <div style="display:flex;flex-direction:column;gap:8px;width:100%;text-align:center;">
+                <div class="password-title">for ella</div>
+                <div class="password-subtitle">enter to continue</div>
             </div>
-            
-            <div class="seal-group">
-                <div class="holly-leaves">
-                    <div class="leaf l1"></div>
-                    <div class="leaf l2"></div>
-                </div>
-                <div class="holly-berries">
-                    <div class="berry b1"></div>
-                    <div class="berry b2"></div>
-                    <div class="berry b3"></div>
-                </div>
-                <div class="seal">
-                    <span class="tree">🎄</span>
-                </div>
+            <div class="password-input-wrap">
+                <input type="password" id="pw-input" placeholder="password" autocomplete="off" />
             </div>
+            <div class="password-error" id="pw-error">&nbsp;</div>
+            <button class="password-btn" id="pw-btn">Enter ↗</button>
         </div>
-        
-        <div class="instruction">Click to open</div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-    emailjs.init("XT9NrnS38p-fZJkDb"); // ← Go to Account → General to find this
 
-    const now = new Date();
-    emailjs.send("service_nc91o5s", "template_d1ew17p", { // ← Get template ID from your template page
-        date: now.toLocaleDateString("en-AU", { timeZone: "Australia/Brisbane" }),
-        time: now.toLocaleTimeString("en-AU", { timeZone: "Australia/Brisbane" }),
-    }).then(() => {
-        console.log("✅ Email sent!");
-    }).catch((err) => {
-        console.error("❌ Email failed:", err);
-    });
+    <!-- ===================== HUB PAGE ===================== -->
+    <div class="page" id="page-hub">
+        <div class="hub-inner">
 
-    const envelope = document.getElementById('envelope');
-    envelope.addEventListener('click', () => {
-        envelope.classList.toggle('open');
-    });
-</script>
+            <div class="hub-header">
+                <div class="hub-eyebrow">a little collection</div>
+                <div class="hub-title">
+                    for ella
+                    <span>with love, Toby</span>
+                </div>
+                <div class="hub-divider"></div>
+            </div>
+
+            <div class="hub-grid">
+
+                <div class="letter-card" onclick="showPage('page-letter')">
+                    <div class="card-icon">💌</div>
+                    <div class="card-label">Letter No. 1</div>
+                    <div class="card-title">A Christmas Letter</div>
+                    <div class="card-desc">Written with love from far away, for the girl who makes every distance feel smaller.</div>
+                    <div class="card-arrow">→</div>
+                </div>
+
+                <div class="letter-card locked">
+                    <div class="lock-badge">🔒</div>
+                    <div class="card-icon">✉️</div>
+                    <div class="card-label">Letter No. 2</div>
+                    <div class="card-title">Coming Soon</div>
+                    <div class="card-desc">Something else is on its way...</div>
+                    <div class="card-coming">not yet</div>
+                </div>
+
+            </div>
+
+            <div class="hub-footer">made just for you 🍵</div>
+
+        </div>
+    </div>
+
+
+    <!-- ===================== CHRISTMAS LETTER PAGE ===================== -->
+    <div class="page" id="page-letter">
+
+        <button class="back-btn" onclick="showPage('page-hub')">← back</button>
+
+        <div class="snow snow-far"></div>
+        <div class="snow snow-mid"></div>
+        <div class="snow snow-near"></div>
+
+        <div class="letter-scene">
+            <div class="glow"></div>
+
+            <div class="envelope-wrapper" id="envelope">
+                <div class="envelope">
+                    <div class="front flap"></div>
+                    <div class="front pocket"></div>
+
+                    <div class="letter">
+                        <div class="text-container">
+                            <p><strong>Merry Christmas!</strong></p>
+                            <p>Dear Ella,</p>
+                            <p>I wanted to make this for you just to say how much I love you.</p>
+                            <p>It is so hard being apart from you, and I miss you more than I can explain. But knowing that I get to see you soon is the only thing getting me through the distance.</p>
+                            <p>I literally can't wait to be with you again.</p>
+                            <p class="signature">Love, Toby</p>
+                        </div>
+                    </div>
+
+                    <div class="hearts">
+                        <div class="heart a1"></div>
+                        <div class="heart a2"></div>
+                        <div class="heart a3"></div>
+                    </div>
+                </div>
+
+                <div class="seal-group">
+                    <div class="holly-leaves">
+                        <div class="leaf l1"></div>
+                        <div class="leaf l2"></div>
+                    </div>
+                    <div class="holly-berries">
+                        <div class="berry b1"></div>
+                        <div class="berry b2"></div>
+                        <div class="berry b3"></div>
+                    </div>
+                    <div class="seal">
+                        <span class="tree">🎄</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instruction">Tap to open</div>
+        </div>
+    </div>
+
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        emailjs.init("XT9NrnS38p-fZJkDb");
+
+        function sendVisitEmail() {
+            const now = new Date();
+            emailjs.send("service_nc91o5s", "template_d1ew17p", {
+                date: now.toLocaleDateString("en-AU", { timeZone: "Australia/Brisbane" }),
+                time: now.toLocaleTimeString("en-AU", { timeZone: "Australia/Brisbane" }),
+            }).then(() => {
+                console.log("✅ Email sent!");
+            }).catch((err) => {
+                console.error("❌ Email failed:", err);
+            });
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if (id !== 'page-letter') {
+                document.getElementById('envelope').classList.remove('open');
+            }
+        }
+
+        const PASSWORD = "smelly";
+
+        function tryPassword() {
+            const val = document.getElementById('pw-input').value;
+            const err = document.getElementById('pw-error');
+            if (val.toLowerCase() === PASSWORD) {
+                err.innerHTML = '&nbsp;';
+                sendVisitEmail();
+                showPage('page-hub');
+            } else {
+                err.textContent = 'try again 🍵';
+                document.getElementById('pw-input').value = '';
+                document.getElementById('pw-input').focus();
+            }
+        }
+
+        document.getElementById('pw-btn').addEventListener('click', tryPassword);
+        document.getElementById('pw-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') tryPassword();
+        });
+
+        document.getElementById('envelope').addEventListener('click', () => {
+            document.getElementById('envelope').classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
