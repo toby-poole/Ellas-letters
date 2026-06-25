@@ -7,12 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html, body {
-            height: 100%;
-            font-family: 'Lora', serif;
-        }
-
+        html, body { height: 100%; font-family: 'Lora', serif; }
         body {
             background: #2d4a3e;
             display: flex;
@@ -22,7 +17,6 @@
             padding: 24px;
             overflow: hidden;
         }
-
         .pw-bg-leaf {
             position: fixed;
             font-size: 60px;
@@ -34,12 +28,10 @@
         .pw-bg-leaf:nth-child(2) { top: 70%; left: 80%; animation-delay: 4s; }
         .pw-bg-leaf:nth-child(3) { top: 40%; left: 90%; animation-delay: 8s; }
         .pw-bg-leaf:nth-child(4) { top: 85%; left: 15%; animation-delay: 2s; }
-
         @keyframes floatLeaf {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50%       { transform: translateY(-18px) rotate(6deg); }
         }
-
         .password-card {
             background: rgba(255,255,255,0.07);
             border: 1px solid rgba(255,255,255,0.12);
@@ -56,9 +48,7 @@
             position: relative;
             z-index: 2;
         }
-
         .password-leaf { font-size: 36px; }
-
         .password-title {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
@@ -68,7 +58,6 @@
             text-align: center;
             line-height: 1.2;
         }
-
         .password-subtitle {
             font-size: 11px;
             color: rgba(216,238,220,0.45);
@@ -77,9 +66,7 @@
             text-align: center;
             margin-top: -8px;
         }
-
         .password-input-wrap { width: 100%; }
-
         .password-input-wrap input {
             width: 100%;
             background: rgba(255,255,255,0.08);
@@ -100,7 +87,6 @@
             border-color: rgba(255,255,255,0.4);
             background: rgba(255,255,255,0.12);
         }
-
         .password-btn {
             width: 100%;
             padding: 15px;
@@ -117,7 +103,6 @@
         }
         .password-btn:hover  { background: #6a9e79; }
         .password-btn:active { transform: scale(0.98); }
-
         .password-error {
             font-size: 13px;
             color: #e8a0a0;
@@ -126,14 +111,12 @@
             text-align: center;
             margin-top: -8px;
         }
-
         @media (max-width: 400px) {
             .password-card { padding: 36px 24px 32px; }
         }
     </style>
 </head>
 <body>
-
     <div class="pw-bg-leaf">🍃</div>
     <div class="pw-bg-leaf">🌿</div>
     <div class="pw-bg-leaf">🍃</div>
@@ -156,6 +139,11 @@
     <script>
         emailjs.init("XT9NrnS38p-fZJkDb");
 
+        // If already verified, skip straight to hub
+        if (localStorage.getItem('ella_verified') === 'true') {
+            window.location.href = 'hub.html';
+        }
+
         function sendVisitEmail() {
             const now = new Date();
             emailjs.send("service_nc91o5s", "template_d1ew17p", {
@@ -172,7 +160,7 @@
             const err = document.getElementById('pw-error');
             if (val.toLowerCase() === PASSWORD) {
                 err.innerHTML = '&nbsp;';
-                sessionStorage.setItem('verified', 'true');
+                localStorage.setItem('ella_verified', 'true');
                 sendVisitEmail();
                 window.location.href = 'hub.html';
             } else {

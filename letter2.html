@@ -7,34 +7,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         html, body {
             height: 100%;
             font-family: 'Lora', serif;
             background: #1a2e1a;
             overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(ellipse 60% 40% at 20% 10%,  rgba(120,190,80,0.18)  0%, transparent 60%),
-                radial-gradient(ellipse 40% 60% at 80% 30%,  rgba(80,160,60,0.14)   0%, transparent 55%),
-                radial-gradient(ellipse 50% 50% at 50% 80%,  rgba(60,120,40,0.12)   0%, transparent 60%),
-                radial-gradient(ellipse 70% 30% at 10% 70%,  rgba(100,170,70,0.10)  0%, transparent 50%);
+                radial-gradient(ellipse 60% 40% at 20% 10%,  rgba(120,190,80,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 60% at 80% 30%,  rgba(80,160,60,0.14)  0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 50% 80%,  rgba(60,120,40,0.12)  0%, transparent 60%),
+                radial-gradient(ellipse 70% 30% at 10% 70%,  rgba(100,170,70,0.10) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
             animation: dapple 8s ease-in-out infinite alternate;
         }
-
         @keyframes dapple {
             0%   { opacity: 0.8; transform: scale(1) translateX(0); }
             100% { opacity: 1;   transform: scale(1.04) translateX(8px); }
         }
-
-        /* FLOATING LEAVES */
         .g-leaf {
             position: fixed;
             font-size: 28px;
@@ -50,15 +45,12 @@
         .g-leaf:nth-child(5) { left: 70%; font-size: 20px; animation-duration: 13s; animation-delay: 7s; }
         .g-leaf:nth-child(6) { left: 85%; font-size: 24px; animation-duration: 15s; animation-delay: 3s; }
         .g-leaf:nth-child(7) { left: 45%; font-size: 16px; animation-duration: 10s; animation-delay: 9s; }
-
         @keyframes leafFall {
-            0%   { transform: translateY(-60px) rotate(0deg)   translateX(0);   opacity: 0; }
+            0%   { transform: translateY(-60px) rotate(0deg) translateX(0);    opacity: 0; }
             10%  { opacity: 0.7; }
             80%  { opacity: 0.5; }
             100% { transform: translateY(110vh) rotate(360deg) translateX(40px); opacity: 0; }
         }
-
-        /* BACK BUTTON */
         .back-btn {
             position: fixed;
             top: 20px; left: 20px;
@@ -80,8 +72,6 @@
             -webkit-tap-highlight-color: transparent;
         }
         .back-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
-
-        /* LETTER CARD */
         .g-scene {
             position: relative;
             z-index: 2;
@@ -93,7 +83,6 @@
             max-width: 480px;
             margin: 0 auto;
         }
-
         .g-card {
             background: rgba(240,250,236,0.96);
             border-radius: 4px;
@@ -107,12 +96,10 @@
             border-top: 4px solid #6aab54;
             animation: cardReveal 0.8s ease 0.2s both;
         }
-
         @keyframes cardReveal {
             from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-
         .g-card::before {
             content: '';
             position: absolute;
@@ -126,22 +113,13 @@
             );
             border-radius: 4px 4px 0 0;
         }
-
-        .g-corner {
-            position: absolute;
-            font-size: 32px;
-            line-height: 1;
-            opacity: 0.35;
-        }
-        .g-corner.tl { top: 12px; left: 12px;  transform: rotate(-20deg); }
-        .g-corner.tr { top: 12px; right: 12px;  transform: rotate(20deg) scaleX(-1); }
+        .g-corner { position: absolute; font-size: 32px; line-height: 1; opacity: 0.35; }
+        .g-corner.tl { top: 12px; left: 12px;   transform: rotate(-20deg); }
+        .g-corner.tr { top: 12px; right: 12px;   transform: rotate(20deg) scaleX(-1); }
         .g-corner.bl { bottom: 12px; left: 12px;  transform: rotate(20deg); }
         .g-corner.br { bottom: 12px; right: 12px; transform: rotate(-20deg) scaleX(-1); }
-
         .g-header { text-align: center; margin-bottom: 24px; }
-
         .g-icon { font-size: 32px; display: block; margin-bottom: 8px; }
-
         .g-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 13px;
@@ -149,14 +127,11 @@
             text-transform: uppercase;
             color: #4e7a3c;
         }
-
         .g-divider {
-            width: 40px;
-            height: 1px;
+            width: 40px; height: 1px;
             background: linear-gradient(to right, transparent, #6aab54, transparent);
             margin: 12px auto 0;
         }
-
         .g-body {
             font-family: 'Lora', serif;
             font-size: 15px;
@@ -164,10 +139,8 @@
             line-height: 1.8;
             text-align: left;
         }
-
         .g-body p { margin-bottom: 12px; }
         .g-body p:last-child { margin-bottom: 0; }
-
         .g-sig {
             font-family: 'Dancing Script', cursive;
             font-size: 26px;
@@ -176,7 +149,6 @@
             display: block;
             text-align: right;
         }
-
         @media (max-width: 400px) {
             .g-scene { padding: 80px 16px 60px; }
             .g-card  { padding: 32px 22px 36px; }
@@ -186,7 +158,7 @@
 </head>
 <body>
     <script>
-        if (sessionStorage.getItem('verified') !== 'true') {
+        if (localStorage.getItem('ella_verified') !== 'true') {
             window.location.href = 'index.html';
         }
     </script>
@@ -218,8 +190,9 @@
                 <p>Dear Ella,</p>
                 <p>I hope you have a fantastic time at home with your family. Also make sure to catch up on your sleep, smelly.</p>
                 <p>Remember to give Opal lots of pats and throw the ball for her.</p>
-                <p>And be nice to Hannah — we both know how much she misses you.</p>
+                <p>And be nice to Hannah we both know how much she misses you.</p>
                 <p>Have fun and I hope your time at home is magical and rejuvenating.</p>
+                <p>Also remember to epp a lot and send me lots of photos.</p>
                 <span class="g-sig">Love, Toby. Mwah 🌿</span>
             </div>
         </div>
